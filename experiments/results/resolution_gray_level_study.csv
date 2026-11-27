@@ -1,9 +1,9 @@
 image,study,setting,parameters,width,height,iou,processing_time_seconds
-C:\Users\LapStore\Downloads\Image_Project\concrete-crack-segmentation\data\raw\images\011.jpg,resolution,1/1,scale=1/1; interpolation=area+nearest,2448,3264,0.009730140760060731,0.07952769985422492
-C:\Users\LapStore\Downloads\Image_Project\concrete-crack-segmentation\data\raw\images\011.jpg,resolution,1/2,scale=1/2; interpolation=area+nearest,1224,1632,0.009816421613387437,0.0701413000933826
-C:\Users\LapStore\Downloads\Image_Project\concrete-crack-segmentation\data\raw\images\011.jpg,resolution,1/4,scale=1/4; interpolation=area+nearest,612,816,0.008432227729178822,0.0654876995831728
-C:\Users\LapStore\Downloads\Image_Project\concrete-crack-segmentation\data\raw\images\011.jpg,resolution,1/8,scale=1/8; interpolation=area+nearest,306,408,0.008782082075251375,0.08907670015469193
-C:\Users\LapStore\Downloads\Image_Project\concrete-crack-segmentation\data\raw\images\011.jpg,gray_levels,256,gray_levels=256,2448,3264,0.009730140760060731,0.3023772998712957
-C:\Users\LapStore\Downloads\Image_Project\concrete-crack-segmentation\data\raw\images\011.jpg,gray_levels,64,gray_levels=64,2448,3264,0.008158839275134748,0.2721497002057731
-C:\Users\LapStore\Downloads\Image_Project\concrete-crack-segmentation\data\raw\images\011.jpg,gray_levels,16,gray_levels=16,2448,3264,0.019603530859389158,0.24215329997241497
-C:\Users\LapStore\Downloads\Image_Project\concrete-crack-segmentation\data\raw\images\011.jpg,gray_levels,4,gray_levels=4,2448,3264,0.45619732185208156,0.26543369982391596
+data/raw/images/011.jpg,resolution,1/1,scale=1/1; area+nearest; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.04624349996447563
+data/raw/images/011.jpg,resolution,1/2,scale=1/2; area+nearest; threshold=127; dark pixels,1224,1632,0.29878626748352793,0.06495400005951524
+data/raw/images/011.jpg,resolution,1/4,scale=1/4; area+nearest; threshold=127; dark pixels,612,816,0.39221673402185303,0.07056759996339679
+data/raw/images/011.jpg,resolution,1/8,scale=1/8; area+nearest; threshold=127; dark pixels,306,408,0.46154384246790947,0.07529980037361383
+data/raw/images/011.jpg,gray_levels,256,gray_levels=256; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.3778877002187073
+data/raw/images/011.jpg,gray_levels,64,gray_levels=64; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.40279059996828437
+data/raw/images/011.jpg,gray_levels,16,gray_levels=16; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.31689099967479706
+data/raw/images/011.jpg,gray_levels,4,gray_levels=4; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.3149357996881008

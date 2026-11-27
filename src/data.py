@@ -214,43 +214,6 @@ def read_split(path: str | Path, data_root: str | Path = ".") -> list[Pair]:
     return pairs
 
 
-def add_noise(
-    image: np.ndarray,
-    noise_type: str,
-    level: float,
-    seed: int = 42,
-) -> np.ndarray:
-    """Add seeded Gaussian, salt-and-pepper, speckle, or Poisson noise."""
-    source = np.asarray(image)
-    if source.dtype != np.uint8 or source.ndim != 2:
-        raise ValueError("Noise input must be a grayscale uint8 image")
-    if level < 0:
-        raise ValueError("Noise level must be non-negative")
-    rng = np.random.default_rng(seed)
-    values = source.astype(np.float64)
-
-    if noise_type == "gaussian":
-        noisy = values + rng.normal(0.0, level, source.shape)
-    elif noise_type == "salt_pepper":
-        if level > 1:
-            raise ValueError("Salt-and-pepper level is a fraction in [0, 1]")
-        noisy = values.copy()
-        selected = rng.random(source.shape) < level
-        salt = rng.random(source.shape) < 0.5
-        noisy[selected & salt] = 255
-        noisy[selected & ~salt] = 0
-    elif noise_type == "speckle":
-        noisy = values + values * rng.normal(0.0, level, source.shape)
-    elif noise_type == "poisson":
-        if level <= 0:
-            raise ValueError("Poisson level must be positive")
-        scale = 255.0 / level
-        noisy = rng.poisson(values * (level / 255.0)) * scale
-    else:
-        raise ValueError(f"Unknown noise type: {noise_type}")
-    return np.clip(np.rint(noisy), 0, 255).astype(np.uint8)
-
-
 def main() -> None:
     """Create frozen development/test manifests from image and mask folders."""
     parser = argparse.ArgumentParser(description=__doc__)

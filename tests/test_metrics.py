@@ -13,7 +13,7 @@ def test_mse_hand_worked_array() -> None:
 
 
 def test_psnr_matches_hand_formula() -> None:
-    # For MSE=5 and peak=255, PSNR = 10 log10(255^2 / 5).
+    # For MSE=2 and peak=255, PSNR = 10 log10(255^2 / 2).
     first = np.array([0, 2], dtype=np.uint8)
     second = np.array([0, 4], dtype=np.uint8)
     expected = 10.0 * np.log10((255.0**2) / 2.0)
