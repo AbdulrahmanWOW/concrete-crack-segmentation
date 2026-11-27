@@ -1,9 +1,9 @@
-image,study,setting,parameters,width,height,iou,processing_time_seconds
-data/raw/images/011.jpg,resolution,1/1,scale=1/1; area+nearest; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.04624349996447563
-data/raw/images/011.jpg,resolution,1/2,scale=1/2; area+nearest; threshold=127; dark pixels,1224,1632,0.29878626748352793,0.06495400005951524
-data/raw/images/011.jpg,resolution,1/4,scale=1/4; area+nearest; threshold=127; dark pixels,612,816,0.39221673402185303,0.07056759996339679
-data/raw/images/011.jpg,resolution,1/8,scale=1/8; area+nearest; threshold=127; dark pixels,306,408,0.46154384246790947,0.07529980037361383
-data/raw/images/011.jpg,gray_levels,256,gray_levels=256; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.3778877002187073
-data/raw/images/011.jpg,gray_levels,64,gray_levels=64; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.40279059996828437
-data/raw/images/011.jpg,gray_levels,16,gray_levels=16; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.31689099967479706
-data/raw/images/011.jpg,gray_levels,4,gray_levels=4; threshold=127; dark pixels,2448,3264,0.2514984649870864,0.3149357996881008
+height,image,iou,parameters,processing_time_seconds,psnr_db,setting,study,width
+3264,data/raw/images/011.jpg,0.2514984649870864,scale=1/1; area+nearest; threshold=127; dark pixels,0.08400620007887483,,1/1,resolution,2448
+1632,data/raw/images/011.jpg,0.29878626748352793,scale=1/2; area+nearest; threshold=127; dark pixels,0.06496169976890087,,1/2,resolution,1224
+816,data/raw/images/011.jpg,0.39221673402185303,scale=1/4; area+nearest; threshold=127; dark pixels,0.05025220010429621,,1/4,resolution,612
+408,data/raw/images/011.jpg,0.46154384246790947,scale=1/8; area+nearest; threshold=127; dark pixels,0.09316099993884563,,1/8,resolution,306
+3264,data/raw/images/011.jpg,0.2514984649870864,gray_levels=256; threshold=127; dark pixels,0.7782771000638604,inf,256,gray_levels,2448
+3264,data/raw/images/011.jpg,0.2514984649870864,gray_levels=64; threshold=127; dark pixels,0.7465609996579587,42.69023622068687,64,gray_levels,2448
+3264,data/raw/images/011.jpg,0.2514984649870864,gray_levels=16; threshold=127; dark pixels,0.5268609998747706,29.31291177836833,16,gray_levels,2448
+3264,data/raw/images/011.jpg,0.2514984649870864,gray_levels=4; threshold=127; dark pixels,0.6365017001517117,20.345998531099816,4,gray_levels,2448
