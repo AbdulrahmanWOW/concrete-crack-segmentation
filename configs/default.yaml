@@ -3,7 +3,7 @@ data:
   raw_images: data/raw/images
   raw_masks: data/raw/masks
   splits_dir: data/splits
-  working_scale: 0.25        # 4032x3024 -> 1008x756; to be confirmed by the resolution study
+  working_scale: 0.25        # 1/4 scale retained more crack detail than the 1/8 study
   mask_threshold: 127        # mask pixels > 127 are crack
 
 split:
@@ -13,6 +13,7 @@ split:
 experiments:
   log_file: experiments/log.csv
   figures_dir: experiments/figures
+  results_dir: experiments/results
 
 decision:
   inspect_if_crack_area_percent_above: null   # set on the development set

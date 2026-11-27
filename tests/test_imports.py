@@ -5,7 +5,7 @@ import importlib
 import pytest
 
 MODULES = [
-    "data", "metrics", "enhancement", "restoration", "frequency",
+    "data", "metrics", "baselines", "enhancement", "restoration", "frequency",
     "segmentation", "morphology", "pipeline", "evaluate", "run_pipeline",
 ]
 

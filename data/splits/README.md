@@ -1,5 +1,12 @@
-# Splits
+# Frozen split manifests
 
-`dev.txt` and `test.txt` list the image IDs of the development and test sets
-(70 / 30, seed 42). They are created once by `src.data.make_split` and committed so the
-test set stays frozen. Never tune on `test.txt`.
+After organizing the data, create the manifests once from the repository root:
+
+```powershell
+python -m src.data --images data/raw/images --masks data/raw/masks `
+  --split-dir data/splits --seed 42 --test-frac 0.30
+```
+
+The files list image and mask paths separated by a tab. Commit both files so the
+test set stays fixed; use only `dev.txt` for tuning and baseline studies. Never
+regenerate or tune against `test.txt` after final evaluation.
