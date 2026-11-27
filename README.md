@@ -102,10 +102,10 @@ python app/app.py                                   # (planned) demo
 | Member | GitHub | Role | Work package |
 |---|---|---|---|
 | Abdulrahman Alseady | @AbdulrahmanWOW | Tech Lead | Problem formulation, repository, integration, code review, final pipeline |
-| Nour | | Data and Baseline Engineer | Loading, split, ground truth, degradation, metrics, baselines |
+| Hazem | | Data and Baseline Engineer | Loading, split, ground truth, degradation, metrics, baselines |
 | Fares | | Enhancement Engineer | Histograms, point transforms, equalisation, smoothing, sharpening |
 | Fatma | | Restoration and Frequency Engineer | Noise models, restoration filters, DFT and frequency filters |
-| Hazem | | Segmentation Engineer | Edge, point and line detection, thresholding, Hough transform |
+| Nour | | Segmentation Engineer | Edge, point and line detection, thresholding, Hough transform |
 | Rahma | | Morphology and Evaluation Engineer | Morphology, measurement, test evaluation, failure analysis, demo |
 
 Each member adds their GitHub username to this table in their first pull request.
