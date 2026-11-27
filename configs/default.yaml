@@ -1,0 +1,18 @@
+# Shared settings used by every pipeline. Paths are relative to the repository root.
+data:
+  raw_images: data/raw/images
+  raw_masks: data/raw/masks
+  splits_dir: data/splits
+  working_scale: 0.25        # 4032x3024 -> 1008x756; to be confirmed by the resolution study
+  mask_threshold: 127        # mask pixels > 127 are crack
+
+split:
+  seed: 42
+  test_fraction: 0.30
+
+experiments:
+  log_file: experiments/log.csv
+  figures_dir: experiments/figures
+
+decision:
+  inspect_if_crack_area_percent_above: null   # set on the development set
