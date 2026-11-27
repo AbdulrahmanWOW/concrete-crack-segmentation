@@ -1,0 +1,12 @@
+# Pinned versions. Tested on Python 3.12 (Google Colab) and 3.13.
+numpy==2.5.5
+opencv-python-headless==4.14.0.94
+scikit-image==0.26.0
+scipy==1.18.1
+matplotlib==3.11.2
+pandas==3.1.1
+pyyaml==6.0.4
+gradio==6.32.0
+# development
+pytest==9.2.0
+flake8==7.5.0
