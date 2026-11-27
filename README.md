@@ -30,8 +30,8 @@ misalignment, so Dice/F1 is reported as a secondary metric.
 
 | | Description |
 |---|---|
-| Input | RGB JPEG photo, 8-bit per channel, 4032 × 3024 px (to be verified) |
-| Working format | Grayscale `uint8` 0–255, downscaled to `TBD` (chosen in the resolution study) |
+| Input | RGB JPEG photo, 8-bit per channel; mostly 4032 × 3024 px |
+| Working format | Grayscale `uint8` 0–255 at 1/4 scale, with aspect ratio preserved |
 | Ground truth | Binary crack mask, `uint8` 0/1 after binarisation |
 | Output | Binary mask `uint8` 0/1, crack area %, segment count, decision |
 
@@ -39,8 +39,10 @@ misalignment, so Dice/F1 is reported as a secondary metric.
 
 Çağlar Fırat Özgenel, *Concrete Crack Segmentation Dataset*, Mendeley Data, 2019.
 DOI: [10.17632/jwsn7tfbrp.1](https://doi.org/10.17632/jwsn7tfbrp.1). Licence: CC BY 4.0
-(to be verified on the Mendeley page). 458 images with pixel-level crack masks, taken in
-buildings at Middle East Technical University.
+(verified on the Mendeley record). The record describes 458 images with alpha
+maps, taken in buildings at Middle East Technical University. The downloaded
+archive in this checkout yielded 445 usable pairs; see `data/README.md` and
+`data/pairing_report.csv` for the source-archive discrepancy.
 
 The raw data is not stored in this repository. See [`data/README.md`](data/README.md) to
 download it. The development / test split is fixed in `data/splits/` (70 / 30, seed 42);
@@ -53,11 +55,17 @@ Development-set results until the final evaluation. All numbers are reproducible
 
 | Pipeline | Mean IoU | Std | Mean Dice | Time / image |
 |---|---|---|---|---|
-| Trivial baseline (threshold 127) | – | – | – | – |
-| Simple baseline (Otsu + 3×3 opening) | – | – | – | – |
+| Trivial baseline (threshold 127) | 0.2629 | 0.2531 | 0.3524 | 0.0013 s |
+| Simple baseline (Otsu + 3×3 opening) | 0.0400 | 0.0997 | 0.0656 | 0.0026 s |
 | Pipeline A | – | – | – | – |
 | Pipeline B | – | – | – | – |
 | Pipeline C | – | – | – | – |
+
+Baselines use 311 development pairs at 1/4 scale. Trivial threshold IoU ranges
+from 0.0001 to 0.7991; Otsu plus opening ranges from 0.0012 to 0.7992. The
+simple baseline's low mean shows that Otsu plus opening removes useful thin
+crack pixels on many images; per-image scores are in
+`experiments/results/baseline_per_image.csv`.
 
 ## Setup
 
@@ -72,12 +80,13 @@ Then download the dataset as described in `data/README.md`.
 
 ## How to run
 
-Commands marked *(planned)* are added as the project progresses.
-
 ```bash
 pytest                                              # unit tests
 flake8 src tests app                                # style check (max 95 chars)
-python -m src.pipeline --config configs/baselines.yaml   # (planned) baselines on dev set
+python -m data.download --images path/to/rgb --masks path/to/BW --output data/raw
+python -m src.data --images data/raw/images --masks data/raw/masks
+python -m src.baselines --study-only                 # one-image resolution/gray study
+python -m src.baselines --scale 0.25                 # baselines on dev set
 python -m src.evaluate --config configs/final.yaml --split test   # (planned) final test metrics
 python -m src.run_pipeline path/to/image.jpg        # (planned) full pipeline on one image
 python app/app.py                                   # (planned) demo
@@ -102,7 +111,7 @@ python app/app.py                                   # (planned) demo
 | Member | GitHub | Role | Work package |
 |---|---|---|---|
 | Abdulrahman Alseady | @AbdulrahmanWOW | Tech Lead | Problem formulation, repository, integration, code review, final pipeline |
-| Hazem | | Data and Baseline Engineer | Loading, split, ground truth, degradation, metrics, baselines |
+| Hazem Oraby | [@HazemOraby](https://github.com/HazemOraby) | Data and Baseline Engineer | Loading, split, ground truth, degradation, metrics, baselines |
 | Fares | | Enhancement Engineer | Histograms, point transforms, equalisation, smoothing, sharpening |
 | Fatma | | Restoration and Frequency Engineer | Noise models, restoration filters, DFT and frequency filters |
 | Nour | | Segmentation Engineer | Edge, point and line detection, thresholding, Hough transform |

@@ -1,6 +1,7 @@
 # Data: raw images are never committed (see data/README.md)
 data/raw/
 data/processed/
+data/downloads/
 # split files ARE committed so the test set stays frozen
 
 # Python
