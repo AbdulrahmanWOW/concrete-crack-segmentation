@@ -62,10 +62,21 @@ Development-set results until the final evaluation. All numbers are reproducible
 | Pipeline C | – | – | – | – |
 
 Baselines use 311 development pairs at 1/4 scale. Trivial threshold IoU ranges
-from 0.0001 to 0.7991; Otsu plus opening ranges from 0.0012 to 0.7992. The
-simple baseline's low mean shows that Otsu plus opening removes useful thin
-crack pixels on many images; per-image scores are in
-`experiments/results/baseline_per_image.csv`.
+from 0.0001 to 0.7991; Otsu plus opening ranges from 0.0012 to 0.7992. Per-image
+predicted crack area before and after opening is reported in
+`experiments/results/baseline_per_image.csv` to show whether errors come from
+thresholding or the morphology step.
+
+Otsu marks an average 43.8% of pixels as crack before opening and 38.7%
+afterward; 116 of 311 images exceed 50% before opening. This points to the
+threshold classifying large background regions as crack. Opening reduces the
+area but does not resolve the threshold error.
+
+The threshold-127 development example used for the resolution study scored best
+at the lowest tested resolution (1/8, IoU 0.4615) and retained nonzero IoU at all
+tested gray-level counts down to 4 (IoU 0.2515). The working scale is set to 1/8.
+These minimum settings come from one development example; validate them on the
+full development set before treating them as a general optimum.
 
 ## Setup
 

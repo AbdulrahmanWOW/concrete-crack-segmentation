@@ -39,6 +39,15 @@ def _summary(values: list[float]) -> tuple[float, float, float, float]:
     return float(np.mean(values)), float(np.std(values)), max(values), min(values)
 
 
+def _repo_path(path: str | Path) -> str:
+    """Represent a path relative to the repository root when possible."""
+    resolved = Path(path).resolve()
+    try:
+        return resolved.relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        return Path(path).as_posix()
+
+
 def evaluate_baselines(
     pairs: list[tuple[str, str]],
     output_csv: Path,
@@ -54,6 +63,12 @@ def evaluate_baselines(
         truth = load_mask(mask_path, size=(gray.shape[1], gray.shape[0]))
         if gray.shape != truth.shape:
             raise ValueError(f"Image/mask dimensions differ for {image_path}")
+        otsu_mask = cv2.threshold(
+            gray, 0, 1, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU
+        )[1]
+        opened_mask = cv2.morphologyEx(
+            otsu_mask, cv2.MORPH_OPEN, np.ones((3, 3), dtype=np.uint8)
+        )
         for method, function in (
             ("trivial_127", trivial_baseline),
             ("otsu_open_3x3", simple_baseline),
@@ -64,7 +79,7 @@ def evaluate_baselines(
             score = iou(prediction, truth)
             per_method[method].append(score)
             rows.append({
-                "image": image_path,
+                "image": _repo_path(image_path),
                 "method": method,
                 "parameters": (
                     "threshold=127; dark-pixel inversion"
@@ -75,6 +90,9 @@ def evaluate_baselines(
                 "dice": dice(prediction, truth),
                 "processing_time_seconds": elapsed,
                 "split": "dev",
+                "predicted_crack_area_fraction": float(np.mean(prediction)),
+                "otsu_area_before_open_fraction": float(np.mean(otsu_mask)),
+                "otsu_area_after_open_fraction": float(np.mean(opened_mask)),
             })
 
     for method, scores in per_method.items():
@@ -145,14 +163,13 @@ def save_image_studies(
     factors: tuple[int, ...] = (1, 2, 4, 8),
     gray_levels: tuple[int, ...] = (256, 64, 16, 4),
 ) -> list[dict[str, str | float | int]]:
-    """Save resolution and gray-level variants and their IoU on one dev image."""
+    """Save a compact comparison figure and threshold-127 scores on one dev image."""
     image_path, mask_path = pair
     gray = load_image(image_path)
     truth = load_mask(mask_path)
     output_dir.mkdir(parents=True, exist_ok=True)
-    cv2.imwrite(str(output_dir / "source_gray.png"), gray)
-    cv2.imwrite(str(output_dir / "ground_truth.png"), truth * 255)
     records: list[dict[str, str | float | int]] = []
+    panels: list[tuple[str, np.ndarray]] = [("source", gray), ("truth", truth * 255)]
 
     for factor in factors:
         if factor < 1:
@@ -163,19 +180,20 @@ def save_image_studies(
         reduced = cv2.resize(gray, (width, height), interpolation=cv2.INTER_AREA)
         restored = cv2.resize(reduced, (gray.shape[1], gray.shape[0]),
                               interpolation=cv2.INTER_NEAREST)
-        prediction = simple_baseline(restored)
+        prediction = trivial_baseline(restored)
         records.append({
-            "image": image_path,
+            "image": _repo_path(image_path),
             "study": "resolution",
             "setting": f"1/{factor}",
-            "parameters": f"scale=1/{factor}; interpolation=area+nearest",
+            "parameters": (
+                f"scale=1/{factor}; area+nearest; threshold=127; dark pixels"
+            ),
             "width": width,
             "height": height,
             "iou": iou(prediction, truth),
             "processing_time_seconds": time.perf_counter() - start,
         })
-        cv2.imwrite(str(output_dir / f"resolution_1_{factor}.png"), reduced)
-        cv2.imwrite(str(output_dir / f"resolution_1_{factor}_restored.png"), restored)
+        panels.append((f"resolution 1/{factor}", restored))
 
     for levels in gray_levels:
         if levels < 2 or levels > 256:
@@ -184,18 +202,33 @@ def save_image_studies(
         step = 256.0 / levels
         quantized = np.floor(gray.astype(np.float64) / step) * step
         quantized = np.clip(np.rint(quantized), 0, 255).astype(np.uint8)
-        prediction = simple_baseline(quantized)
+        prediction = trivial_baseline(quantized)
         records.append({
-            "image": image_path,
+            "image": _repo_path(image_path),
             "study": "gray_levels",
             "setting": levels,
-            "parameters": f"gray_levels={levels}",
+            "parameters": f"gray_levels={levels}; threshold=127; dark pixels",
             "width": gray.shape[1],
             "height": gray.shape[0],
             "iou": iou(prediction, truth),
             "processing_time_seconds": time.perf_counter() - start,
         })
-        cv2.imwrite(str(output_dir / f"gray_levels_{levels}.png"), quantized)
+        panels.append((f"gray levels {levels}", quantized))
+
+    tile_width = 640
+    tile_height = 480
+    tiles = []
+    for label, panel in panels:
+        thumbnail = cv2.resize(
+            panel, (tile_width, tile_height), interpolation=cv2.INTER_AREA
+        )
+        tile = cv2.cvtColor(thumbnail, cv2.COLOR_GRAY2BGR)
+        cv2.putText(tile, label, (12, 30), cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8, (0, 0, 255), 2, cv2.LINE_AA)
+        tiles.append(tile)
+    sheet = np.vstack((np.hstack(tiles[:5]), np.hstack(tiles[5:])))
+    cv2.imwrite(str(output_dir / "study_comparison.jpg"), sheet,
+                [cv2.IMWRITE_JPEG_QUALITY, 88])
 
     return records
 
