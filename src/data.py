@@ -42,9 +42,12 @@ def _to_uint8(image: np.ndarray) -> np.ndarray:
     raise TypeError(f"Unsupported image dtype: {image.dtype}")
 
 
-def _read(path: str | Path) -> np.ndarray:
+def _read(
+    path: str | Path,
+    flags: int = cv2.IMREAD_UNCHANGED,
+) -> np.ndarray:
     """Read an image and raise a useful error when the path cannot be decoded."""
-    image = cv2.imread(str(path), cv2.IMREAD_UNCHANGED)
+    image = cv2.imread(str(path), flags)
     if image is None:
         raise FileNotFoundError(f"Could not read image: {path}")
     return image
@@ -79,7 +82,11 @@ def load_image(
     scale: float = 1.0,
 ) -> np.ndarray:
     """Load grayscale uint8 [0, 255], resizing with INTER_AREA."""
-    image = _to_uint8(_read(path))
+    # Unlike IMREAD_UNCHANGED, these flags honor JPEG EXIF orientation while
+    # retaining the source bit depth. Several source photos rely on EXIF rotate.
+    image = _to_uint8(
+        _read(path, cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
+    )
     if image.ndim == 2:
         gray = image
     elif image.ndim == 3 and image.shape[2] == 3:
