@@ -1,12 +1,4 @@
 run_id,date,author,pipeline,stage,method,parameters,random_seed,processing_time_seconds,split,metric_name,metric_value
-158bbc778a6f,2026-11-27T16:25:40+00:00,HazemOraby,resolution,segmentation,1/1,scale=1/1; interpolation=area+nearest,42,0.07952769985422492,dev,iou,0.009730140760060731
-b3c35e4adcc8,2026-11-27T16:25:40+00:00,HazemOraby,resolution,segmentation,1/2,scale=1/2; interpolation=area+nearest,42,0.0701413000933826,dev,iou,0.009816421613387437
-2b9dedef9bca,2026-11-27T16:25:40+00:00,HazemOraby,resolution,segmentation,1/4,scale=1/4; interpolation=area+nearest,42,0.0654876995831728,dev,iou,0.008432227729178822
-7ff76e968cc8,2026-11-27T16:25:40+00:00,HazemOraby,resolution,segmentation,1/8,scale=1/8; interpolation=area+nearest,42,0.08907670015469193,dev,iou,0.008782082075251375
-20e5f1cd987f,2026-11-27T16:25:40+00:00,HazemOraby,gray_levels,segmentation,256,gray_levels=256,42,0.3023772998712957,dev,iou,0.009730140760060731
-8eee4348a386,2026-11-27T16:25:40+00:00,HazemOraby,gray_levels,segmentation,64,gray_levels=64,42,0.2721497002057731,dev,iou,0.008158839275134748
-bcef9a3c3f83,2026-11-27T16:25:40+00:00,HazemOraby,gray_levels,segmentation,16,gray_levels=16,42,0.24215329997241497,dev,iou,0.019603530859389158
-53b26be4c3c5,2026-11-27T16:25:40+00:00,HazemOraby,gray_levels,segmentation,4,gray_levels=4,42,0.26543369982391596,dev,iou,0.45619732185208156
 35f038b46764,2026-11-27T16:26:33+00:00,HazemOraby,baseline,segmentation,trivial_127,threshold=127; dark-pixel inversion; working_size=scale=0.25,42,0.0007057995535433292,dev,iou,0.3963985594237695
 a34fd631159c,2026-11-27T16:26:33+00:00,HazemOraby,baseline,segmentation,otsu_open_3x3,Otsu inverse threshold; 3x3 rectangular opening; working_size=scale=0.25,42,0.001910800114274025,dev,iou,0.009254549740103462
 ded786f457e6,2026-11-27T16:26:33+00:00,HazemOraby,baseline,segmentation,trivial_127,threshold=127; dark-pixel inversion; working_size=scale=0.25,42,0.0018328996375203133,dev,iou,0.3896444762586495
@@ -629,3 +621,15 @@ a7560656e9ee,2026-11-27T16:26:33+00:00,HazemOraby,baseline,segmentation,otsu_ope
 60764014b17c,2026-11-27T16:26:33+00:00,HazemOraby,baseline,segmentation,otsu_open_3x3,Otsu inverse threshold; 3x3 rectangular opening; working_size=scale=0.25,42,0.0017756996676325798,dev,iou,0.02463137423684504
 bfe1ba31f5d5,2026-11-27T16:26:33+00:00,HazemOraby,baseline,segmentation,trivial_127,threshold=127; dark-pixel inversion; working_size=scale=0.25,42,0.0013510002754628658,dev,iou,0.012090680100755667
 408b0126ec3e,2026-11-27T16:26:33+00:00,HazemOraby,baseline,segmentation,otsu_open_3x3,Otsu inverse threshold; 3x3 rectangular opening; working_size=scale=0.25,42,0.0027356999926269054,dev,iou,0.014962972080333148
+cce4b60a44b0,2026-11-27T18:36:29+00:00,HazemOraby,resolution,segmentation,1/1,scale=1/1; area+nearest; threshold=127; dark pixels,42,0.08400620007887483,dev,iou,0.2514984649870864
+b0ad6bf62aad,2026-11-27T18:36:29+00:00,HazemOraby,resolution,segmentation,1/2,scale=1/2; area+nearest; threshold=127; dark pixels,42,0.06496169976890087,dev,iou,0.29878626748352793
+2889888f15f7,2026-11-27T18:36:29+00:00,HazemOraby,resolution,segmentation,1/4,scale=1/4; area+nearest; threshold=127; dark pixels,42,0.05025220010429621,dev,iou,0.39221673402185303
+7b9497621099,2026-11-27T18:36:29+00:00,HazemOraby,resolution,segmentation,1/8,scale=1/8; area+nearest; threshold=127; dark pixels,42,0.09316099993884563,dev,iou,0.46154384246790947
+5cf9525707ef,2026-11-27T18:36:29+00:00,HazemOraby,gray_levels,segmentation,256,gray_levels=256; threshold=127; dark pixels,42,0.7782771000638604,dev,iou,0.2514984649870864
+2942752fd0fd,2026-11-27T18:36:29+00:00,HazemOraby,gray_levels,segmentation,256,gray_levels=256; threshold=127; dark pixels,42,0.7782771000638604,dev,psnr_db,inf
+136b968da5d5,2026-11-27T18:36:29+00:00,HazemOraby,gray_levels,segmentation,64,gray_levels=64; threshold=127; dark pixels,42,0.7465609996579587,dev,iou,0.2514984649870864
+b7c8f8e4ff86,2026-11-27T18:36:29+00:00,HazemOraby,gray_levels,segmentation,64,gray_levels=64; threshold=127; dark pixels,42,0.7465609996579587,dev,psnr_db,42.69023622068687
+fc6c9ea52d68,2026-11-27T18:36:29+00:00,HazemOraby,gray_levels,segmentation,16,gray_levels=16; threshold=127; dark pixels,42,0.5268609998747706,dev,iou,0.2514984649870864
+94db10bed4cf,2026-11-27T18:36:29+00:00,HazemOraby,gray_levels,segmentation,16,gray_levels=16; threshold=127; dark pixels,42,0.5268609998747706,dev,psnr_db,29.31291177836833
+544a97e32d08,2026-11-27T18:36:29+00:00,HazemOraby,gray_levels,segmentation,4,gray_levels=4; threshold=127; dark pixels,42,0.6365017001517117,dev,iou,0.2514984649870864
+65d8b3cf87b4,2026-11-27T18:36:29+00:00,HazemOraby,gray_levels,segmentation,4,gray_levels=4; threshold=127; dark pixels,42,0.6365017001517117,dev,psnr_db,20.345998531099816

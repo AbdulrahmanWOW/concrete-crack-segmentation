@@ -3,7 +3,7 @@ data:
   raw_images: data/raw/images
   raw_masks: data/raw/masks
   splits_dir: data/splits
-  working_scale: 0.125       # Lowest tested resolution: 1/8 scale
+  working_scale: 0.25        # Retain current scale until resolution study covers dev set
   mask_threshold: 127        # mask pixels > 127 are crack
 
 split:

@@ -14,7 +14,7 @@ import numpy as np
 import yaml
 
 from src.data import discover_pairs, load_image, load_mask, make_split, read_split
-from src.metrics import dice, iou
+from src.metrics import dice, iou, psnr
 
 
 def trivial_baseline(gray: np.ndarray, threshold: int = 127) -> np.ndarray:
@@ -139,22 +139,26 @@ def append_experiment_log(
             if record.get("image") == "__summary__":
                 continue
             method = str(record.get("method", record.get("setting", "")))
-            writer.writerow({
-                "run_id": uuid.uuid4().hex[:12],
-                "date": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                "author": "HazemOraby",
-                "pipeline": record.get("study", "baseline"),
-                "stage": "segmentation",
-                "method": method,
-                "parameters": record.get("parameters", ""),
-                "random_seed": split_seed,
-                "processing_time_seconds": record.get(
-                    "processing_time_seconds", ""
-                ),
-                "split": "dev",
-                "metric_name": "iou",
-                "metric_value": record.get("iou", ""),
-            })
+            metrics = [("iou", record.get("iou", ""))]
+            if "psnr_db" in record:
+                metrics.append(("psnr_db", record["psnr_db"]))
+            for metric_name, metric_value in metrics:
+                writer.writerow({
+                    "run_id": uuid.uuid4().hex[:12],
+                    "date": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                    "author": "HazemOraby",
+                    "pipeline": record.get("study", "baseline"),
+                    "stage": "segmentation",
+                    "method": method,
+                    "parameters": record.get("parameters", ""),
+                    "random_seed": split_seed,
+                    "processing_time_seconds": record.get(
+                        "processing_time_seconds", ""
+                    ),
+                    "split": "dev",
+                    "metric_name": metric_name,
+                    "metric_value": metric_value,
+                })
 
 
 def save_image_studies(
@@ -163,7 +167,7 @@ def save_image_studies(
     factors: tuple[int, ...] = (1, 2, 4, 8),
     gray_levels: tuple[int, ...] = (256, 64, 16, 4),
 ) -> list[dict[str, str | float | int]]:
-    """Save a compact comparison figure and threshold-127 scores on one dev image."""
+    """Save a compact figure with threshold IoU and image-quality study metrics."""
     image_path, mask_path = pair
     gray = load_image(image_path)
     truth = load_mask(mask_path)
@@ -211,6 +215,7 @@ def save_image_studies(
             "width": gray.shape[1],
             "height": gray.shape[0],
             "iou": iou(prediction, truth),
+            "psnr_db": psnr(gray, quantized),
             "processing_time_seconds": time.perf_counter() - start,
         })
         panels.append((f"gray levels {levels}", quantized))
@@ -252,7 +257,8 @@ def run_studies(
     append_experiment_log(study_rows, log_path, split_seed)
     study_path = output_dir / "resolution_gray_level_study.csv"
     with study_path.open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=study_rows[0].keys())
+        columns = sorted({key for row in study_rows for key in row})
+        writer = csv.DictWriter(stream, fieldnames=columns)
         writer.writeheader()
         writer.writerows(study_rows)
     if study_only:

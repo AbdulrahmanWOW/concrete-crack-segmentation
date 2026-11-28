@@ -5,8 +5,9 @@
   `src.baselines`.
 - `figures/`: saved figures referenced in the report.
 - `results/`: development-only per-image baseline scores, predicted-area audit,
-  resolution/gray-level scores, and a compact comparison JPEG. The study uses the
-  fixed threshold-127 baseline and identifies the lowest tested settings that retain
-  nonzero IoU on its development example: 1/8 resolution and 4 gray levels.
+  resolution/gray-level scores, and a compact comparison JPEG. Resolution variants
+  include threshold-127 IoU; gray-level variants include PSNR against the original
+  256-level image because threshold-127 IoU is invariant under these quantization
+  settings.
 
 All tuning uses the development split only.
